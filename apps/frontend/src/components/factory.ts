@@ -6,6 +6,12 @@ import cmsComponents from './cms'
 export const factory : ComponentFactory = new DefaultComponentFactory()
 factory.registerAll(RichTextComponentDictionary)
 factory.registerAll(cmsComponents)
+factory.registerAll(cmsComponents.map(component => ({
+	...component,
+	type: typeof component.type === 'string'
+		? ['ChangesetItem', ...component.type.split('/')]
+		: ['ChangesetItem', ...component.type]
+})))
 
 /**
  * Get the cached version of the Component Factory to use, this ensure that the
